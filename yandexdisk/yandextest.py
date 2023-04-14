@@ -44,24 +44,22 @@ def create_folder(token, name_folder):
     print(r)
 
 
-def upload_file(token, name_folder, name_file):
+def upload_file(token, local_path, cloud_path):
     """
     :param token: токен пользователя, который был получен при авторизации
-    :param name_folder: имя папки на диске
-    :param name_file: имя загружаемого файла
+    :param local_path: локальный путь
+    :param cloud_path: путь в облаке
     """
     headers = {"Authorization": f"OAuth {token}"}
-    params = {"path": f"{name_folder}/{name_file}"}
+    params = {"path": cloud_path}
     r = get("https://cloud-api.yandex.net/v1/disk/resources/upload",
             headers=headers, params=params)
-    print(r)
     href = r.json()["href"]
-    files = {"file": open(f"{name_file}", "rb")}
-    r = put(href, files=files)
+    with open(local_path, 'rb') as f:
+        r = put(href, data=f)
     print(r)
 
 
-# backup создает папки, но не загружает в них файлы
 def backup(token, path_disk, path_load):
     date_folder = '{0}_{1}'.format(path_load.split('\\')[-1], datetime.now().strftime("%Y.%m.%d-%H.%M.%S"))
     create_folder(token, path_disk)
@@ -70,15 +68,16 @@ def backup(token, path_disk, path_load):
                       '{0}/{1}/{2}'.format(path_disk, date_folder,
                                            address.replace(path_load, "")[1:].replace("\\", "/")))
         for file in files:
-            upload_file(token, '{0}/{1}'.format(address, file),
-                        '{0}/{1}{2}/{3}'.format(path_disk, date_folder,
-                                                address.replace(path_load, "").replace("\\", "/"),
-                                                file))
+            upload_file(token, '{0}/{1}'.format(address, file), '{0}/{1}{2}/{3}'.format(path_disk, date_folder,
+                                                                                        address.replace(path_load,
+                                                                                                        "").replace(
+                                                                                            "\\", "/"),
+                                                                                        file))
 
 
 user_code = get_user_token()
-create_folder(user_code, 'test_cloud_path_for_disk')
-upload_file(user_code, 'test_cloud_path_for_disk', 'test.txt')
+# create_folder(user_code, 'test_cloud_path_for_disk')
+# upload_file(user_code, 'test_cloud_path_for_disk', 'test.txt')
 # info_disk(user_code)
-# backup(user_code, "Тестовая папка для тестового бэкапа", "C:\\pythontask-clouds")
+backup(user_code, "Тестовая папка для тестового бэкапа", "C:\\pythontask-clouds")
 # create_folder(user_code, "Тестовая папка для тестового файла")
