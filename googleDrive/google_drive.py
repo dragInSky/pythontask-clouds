@@ -31,7 +31,8 @@ def get_credentials() -> Credentials:
 
 def upload_file(file_fullpath: str, folder_id: str):
     name = file_fullpath.split('/')[-1]
-    _upload_file(file_fullpath.removesuffix(name), name, folder_id)
+    file_path = file_fullpath.removesuffix(name)
+    _upload_file(file_path, name, folder_id)
 
 
 def _upload_file(file_path: str, name: str, folder_id: str):
