@@ -29,7 +29,7 @@ def info_disk(token):
         Инфа о диске
     """
     headers = {"Authorization": f"OAuth {token}"}
-    r = get("https://cloud-api.yandex.net/v1/disk", headers=headers)
+    r = get(f"{config.YANDEX_URL}", headers=headers)
     print(r.json())
 
 
@@ -40,19 +40,19 @@ def create_folder(token, name_folder):
     """
     headers = {"Authorization": f"OAuth {token}"}
     params = {"path": f"{name_folder}"}
-    r = put("https://cloud-api.yandex.net/v1/disk/resources", headers=headers, params=params)
+    r = put(f"{config.YANDEX_URL}/resources", headers=headers, params=params)
     print(r)
 
 
 def upload_file(token, local_path, cloud_path):
     """
     :param token: токен пользователя, который был получен при авторизации
-    :param local_path: локальный путь
+    :param local_path: локальный путь к файлу
     :param cloud_path: путь в облаке
     """
     headers = {"Authorization": f"OAuth {token}"}
     params = {"path": cloud_path}
-    r = get("https://cloud-api.yandex.net/v1/disk/resources/upload",
+    r = get(f"{config.YANDEX_URL}/resources/upload",
             headers=headers, params=params)
     href = r.json()["href"]
     with open(local_path, 'rb') as f:
@@ -75,9 +75,3 @@ def backup(token, path_disk, path_load):
                                                                                         file))
 
 
-user_code = get_user_token()
-# create_folder(user_code, 'test_cloud_path_for_disk')
-# upload_file(user_code, 'test_cloud_path_for_disk', 'test.txt')
-# info_disk(user_code)
-backup(user_code, "Тестовая папка для тестового бэкапа", "C:\\pythontask-clouds")
-# create_folder(user_code, "Тестовая папка для тестового файла")
