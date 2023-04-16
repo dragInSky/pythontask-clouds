@@ -35,7 +35,7 @@ class GoogleDrive:
 
         self._service = build('drive', 'v3', credentials=self._creds)
 
-    def upload_file(self, file_fullpath: str, folder_id: str = 'root'):
+    def _upload_file(self, file_fullpath: str, folder_id: str):
         try:
             name = file_fullpath.split('/')[-1]
 
@@ -50,7 +50,7 @@ class GoogleDrive:
         except HttpError as e:
             print(f'Exception: {e}')
 
-    def upload_folder(self, folder_path: str):
+    def _upload_folder(self, folder_path: str):
         try:
             parents_id = {}
 
@@ -75,10 +75,16 @@ class GoogleDrive:
 
                 for name in filenames:
                     file_fullpath = os.path.join(dir_path, name)
-                    self.upload_file(file_fullpath, folder_id)
+                    self._upload_file(file_fullpath=file_fullpath, folder_id=folder_id)
 
         except HttpError as e:
             print(f'Exception: {e}')
+
+    def upload(self, path: str, folder_id: str):
+        if '.' in path:
+            self._upload_file(path, folder_id)
+        else:
+            self._upload_folder(path)
 
     def file_listing(self):
         try:
@@ -107,7 +113,7 @@ class GoogleDrive:
         except HttpError as e:
             print(f'Exception: {e}')
 
-    def download_file(self, download_dir: str, filename: str, file_id: str):
+    def download_file(self, filename: str, file_id: str, download_dir: str):
         try:
             request = self._service.files().get_media(fileId=file_id)
             file = io.FileIO(os.path.join(download_dir, filename), 'wb')
