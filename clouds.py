@@ -54,16 +54,18 @@ def main():
 
 # -u /Users/draginsky/PycharmProjects/pythontask-clouds/download/testFolder/Hello.txt 1SOFcPWd_Mgc44ywCFtmK41CuT3fDgDm-
         if args.upload:
-            path = args.upload[0].replace('\\', '/')
-            folder_id = 'root' if len(args.upload) < 2 else args.upload[1]
-            GD.upload(path=path, folder_id=folder_id)
+            if len(args.download) >= 1:
+                path = args.upload[0].replace('\\', '/')
+                folder_id = 'root' if len(args.upload) < 2 else args.upload[1]
+                GD.upload(path=path, folder_id=folder_id)
 
 # -d SCR-20230320-qiji.png 1VGUohkQ951DLIeD2yJQJVgWsBtdV8idg /Users/draginsky/PycharmProjects/pythontask-clouds/download
-        if len(args.download) >= 2:
-            filename = args.download[0]
-            file_id = args.download[1]
-            download_dir = '' if len(args.download) < 3 else args.download[2]
-            GD.download_file(filename=filename, file_id=file_id, download_dir=download_dir)
+        if args.download:
+            if len(args.download) >= 2:
+                filename = args.download[0]
+                file_id = args.download[1]
+                download_dir = '' if len(args.download) < 3 else args.download[2]
+                GD.download_file(filename=filename, file_id=file_id, download_dir=download_dir)
     elif args.yandexDisk:
         print('yandex')
         user_code = get_user_token()
