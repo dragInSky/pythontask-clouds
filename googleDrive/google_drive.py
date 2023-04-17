@@ -57,10 +57,13 @@ class GoogleDrive:
             for dir_path, _, filenames in os.walk(folder_path, topdown=True):
                 last_dir = dir_path.split('/')[-1]
                 pre_last_dir = dir_path.split('/')[-2]
-                print(last_dir, pre_last_dir)
+
+                # Если родительская папка еще не создана на диске
                 if pre_last_dir not in parents_id.keys():
                     pre_last_dir = []
                 else:
+                    # Если у папки last_dir есть родительская папка,
+                    # то сохраняем id родительской папки для метаданных
                     pre_last_dir = parents_id[pre_last_dir]
 
                 folder_metadata = {
