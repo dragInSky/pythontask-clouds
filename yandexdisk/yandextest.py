@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from requests_oauthlib import OAuth2Session
-from requests import get, put
+from requests import get, post, put, delete
 import config
 
 auth_url = "https://oauth.yandex.ru/authorize"
@@ -44,20 +44,19 @@ def create_folder(token, name_folder):
     print(r)
 
 
-def upload_file(token, name_folder, name_file):
+def upload_file(token, local_path, cloud_path):
     """
     :param token: токен пользователя, который был получен при авторизации
-    :param name_folder: имя папки на диске
-    :param name_file: имя загружаемого файла
+    :param local_path: локальный путь
+    :param cloud_path: путь в облаке
     """
     headers = {"Authorization": f"OAuth {token}"}
-    params = {"path": f"{name_folder}/{name_file}"}
+    params = {"path": cloud_path}
     r = get("https://cloud-api.yandex.net/v1/disk/resources/upload",
             headers=headers, params=params)
-    print(r)
     href = r.json()["href"]
-    files = {"file": open(f"{name_file}", "rb")}
-    r = put(href, files=files)
+    with open(local_path, 'rb') as f:
+        r = put(href, data=f)
     print(r)
 
 
@@ -76,9 +75,9 @@ def backup(token, path_disk, path_load):
                                                 file))
 
 
-# user_code = get_user_token()
-# create_folder(user_code, 'test_cloud_path_for_disk')
-# upload_file(user_code, 'test_cloud_path_for_disk', 'test.txt')
+user_code = get_user_token()
+create_folder(user_code, 'test_cloud_path_for_disk')
+upload_file(user_code, 'test_cloud_path_for_disk', 'test.txt')
 # info_disk(user_code)
-# backup(user_code, "Тестовая папка для тестового бэкапа", "C:\\pythontask-clouds")
+backup(user_code, "Тестовая папка для тестового бэкапа", "C:\\pythontask-clouds")
 # create_folder(user_code, "Тестовая папка для тестового файла")
