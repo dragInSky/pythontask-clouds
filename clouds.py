@@ -54,7 +54,7 @@ def main():
 
 # -u /Users/draginsky/PycharmProjects/pythontask-clouds/download/testFolder/Hello.txt 1SOFcPWd_Mgc44ywCFtmK41CuT3fDgDm-
         if args.upload:
-            if len(args.download) >= 1:
+            if len(args.upload) >= 1:
                 path = args.upload[0].replace('\\', '/')
                 folder_id = 'root' if len(args.upload) < 2 else args.upload[1]
                 GD.upload(path=path, folder_id=folder_id)
@@ -69,7 +69,8 @@ def main():
     elif args.yandexDisk:
         print('yandex')
         user_code = get_user_token()
-        backup(user_code, "Тестовая папка для тестового бэкапа", "C:\\pythontask-clouds")
+        backup(user_code, "Тестовая папка для тестового бэкапа",
+               "/Users/draginsky/PycharmProjects/pythontask-clouds/yandexdisk")
 
 
 if __name__ == '__main__':

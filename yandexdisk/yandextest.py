@@ -62,7 +62,7 @@ def upload_file(token, local_path, cloud_path):
 
 # backup создает папки, но не загружает в них файлы
 def backup(token, path_disk, path_load):
-    date_folder = '{0}_{1}'.format(path_load.split('\\')[-1], datetime.now().strftime("%Y.%m.%d-%H.%M.%S"))
+    date_folder = '{0}_{1}'.format(path_load.split('/')[-1], datetime.now().strftime("%Y.%m.%d-%H.%M.%S"))
     create_folder(token, path_disk)
     for address, _, files in os.walk(path_load):
         create_folder(token,
@@ -75,9 +75,9 @@ def backup(token, path_disk, path_load):
                                                 file))
 
 
-user_code = get_user_token()
-create_folder(user_code, 'test_cloud_path_for_disk')
-upload_file(user_code, 'test_cloud_path_for_disk', 'test.txt')
+# user_code = get_user_token()
+# create_folder(user_code, 'test_cloud_path_for_disk')
+# upload_file(user_code, 'test_cloud_path_for_disk', 'test.txt')
 # info_disk(user_code)
-backup(user_code, "Тестовая папка для тестового бэкапа", "C:\\pythontask-clouds")
+# backup(user_code, "Тестовая папка для тестового бэкапа", "C:\\pythontask-clouds")
 # create_folder(user_code, "Тестовая папка для тестового файла")
