@@ -72,13 +72,13 @@ def main():
 
         if args.upload:
             if len(args.upload) >= 1:
-                path = args.upload[0]
+                path = args.upload[0].replace('/', '\\')
                 YD.upload_folder(local_path=path)
 
         if args.download:
             if len(args.download) >= 2:
                 filename = args.download[0]
-                download_file = '' if len(args.download) < 3 else args.download[2]
+                download_file = args.download[1]
                 YD.download_file(local_path=filename, cloud_path=download_file)
 
 

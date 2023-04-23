@@ -44,7 +44,7 @@ class YandexDisk:
                                 файла будет взято с локального пути
         """
         if in_cloud_name == '':
-            in_cloud_name = local_path.split("\\")[-1]
+            in_cloud_name = local_path.split("\\" or '/')[-1]
         headers = {"Authorization": f"OAuth {self.token_user}"}
         params = {"path": in_cloud_name}
         r = get(f"{self._YANDEX_URL}/resources/upload",
@@ -88,7 +88,5 @@ class YandexDisk:
         except Exception as ex:
             print(ex)
 
-# YD = YandexDisk()
-# YD.user_token()
-# YD.upload_file("C:\\pythontask-clouds\\yandexdisk\\test.txt", '')
+
 # YD.download_file("C:\\Users\\Sergey\\Desktop", "test.txt")
