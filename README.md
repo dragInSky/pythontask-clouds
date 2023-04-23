@@ -8,10 +8,12 @@
 Консольная утилита для резервного копирования файлов на удалённые хранилища по выбору: Google Drive, Yandex Disk
 
 ## Запуск приложения
-- Справка по запуску: `./main.py -h` / `./main.py --help`
+Справка по запуску: `./clouds.py --help`
 
-- Запуск с выбором гугл диска: `./main.py -g` / `./main.py --googleDrive`
-- Запуск с выбором яндекс диска: `./main.py -y` / `./main.py --yandexDisk`
+Примеры запуска: 
+- `./clouds.py --googleDrive --listing`
+- `./clouds.py --googleDrive --upload full_file[folder]_path [optional]drive_folder_id`
+- `./clouds.py --googleDrive --download filename drive_file_id [optional]target_folder_path`
 
 ## Требования:
 - [ ] Работа минимум с 2 разными хранилищами

@@ -1,7 +1,9 @@
+import config
+import yandexdisk.yandextest
 import argparse
 
 from googleDrive.google_drive import GoogleDrive
-from yandexdisk.yandextest import YandexDisk
+from yandexdisk.yandextest import upload_file, get_user_token, backup
 
 
 def main():
@@ -50,14 +52,14 @@ def main():
         if args.listing:
             GD.file_listing()
 
-        # -u /Users/draginsky/PycharmProjects/pythontask-clouds/download/testFolder/Hello.txt 1SOFcPWd_Mgc44ywCFtmK41CuT3fDgDm-
+# -u /Users/draginsky/PycharmProjects/pythontask-clouds/download/testFolder/Hello.txt 1SOFcPWd_Mgc44ywCFtmK41CuT3fDgDm-
         if args.upload:
             if len(args.upload) >= 1:
                 path = args.upload[0].replace('\\', '/')
                 folder_id = 'root' if len(args.upload) < 2 else args.upload[1]
                 GD.upload(path=path, folder_id=folder_id)
 
-        # -d SCR-20230320-qiji.png 1VGUohkQ951DLIeD2yJQJVgWsBtdV8idg /Users/draginsky/PycharmProjects/pythontask-clouds/download
+# -d SCR-20230320-qiji.png 1VGUohkQ951DLIeD2yJQJVgWsBtdV8idg /Users/draginsky/PycharmProjects/pythontask-clouds/download
         if args.download:
             if len(args.download) >= 2:
                 filename = args.download[0]
@@ -66,20 +68,9 @@ def main():
                 GD.download_file(filename=filename, file_id=file_id, download_dir=download_dir)
     elif args.yandexDisk:
         print('yandex')
-
-        YD = YandexDisk()
-        YD.user_token()
-
-        if args.upload:
-            if len(args.upload) >= 1:
-                path = args.upload[0]
-                YD.upload_folder(local_path=path)
-
-        if args.download:
-            if len(args.download) >= 2:
-                filename = args.download[0]
-                download_file = '' if len(args.download) < 3 else args.download[2]
-                YD.download_file(local_path=filename, cloud_path=download_file)
+        user_code = get_user_token()
+        backup(user_code, "Тестовая папка для тестового бэкапа",
+               "/Users/draginsky/PycharmProjects/pythontask-clouds/yandexdisk")
 
 
 if __name__ == '__main__':
