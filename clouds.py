@@ -51,7 +51,7 @@ def main():
             GD.file_listing()
 
         # -u /Users/draginsky/PycharmProjects/pythontask-clouds/download/testFolder/Hello.txt
-        # -u "путь до папки"
+        # -u "путь до папки/файла"  "[opt]id папки с диска куда качать (можно узнать с помощью ключа -l)"
         if args.upload:
             if len(args.upload) >= 1:
                 path = args.upload[0].replace('\\', '/')
@@ -59,7 +59,7 @@ def main():
                 GD.upload(path=path, folder_id=folder_id)
 
         # -d SCR-20230320-qiji.png 1VGUohkQ951DLIeD2yJQJVgWsBtdV8idg
-        # -d "название файла с диска" "id файла с диска (можно узнать с помощью ключа -l"
+        # -d "название папки/файла с диска" "id файла с диска (можно узнать с помощью ключа -l)" "[opt]путь куда качать"
         if args.download:
             if len(args.download) >= 2:
                 filename = args.download[0]
@@ -72,7 +72,7 @@ def main():
         YD = YandexDisk()
         YD.user_token()
 
-        # -u "путь до папки"
+        # -u "путь до папки/файла"
         if args.upload:
             if len(args.upload) >= 1:
                 path = args.upload[0]
