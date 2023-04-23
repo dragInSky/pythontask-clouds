@@ -28,6 +28,7 @@ class YandexDisk:
     def info_disk(self):
         headers = {"Authorization": f"OAuth {self.token_user}"}
         r = get(self._YANDEX_URL, headers=headers)
+        print(r)
 
     def create_folder(self, folder_name):
         """
@@ -36,6 +37,7 @@ class YandexDisk:
         headers = {"Authorization": f"OAuth {self.token_user}"}
         params = {"path": f"{folder_name}"}
         r = put(f"{self._YANDEX_URL}/resources", headers=headers, params=params)
+        print(r)
 
     def upload_file(self, local_path, in_cloud_name):
         """
@@ -44,11 +46,12 @@ class YandexDisk:
                                 файла будет взято с локального пути
         """
         if in_cloud_name == '':
-            in_cloud_name = local_path.split("\\" or '/')[-1]
+            in_cloud_name = local_path.split('/')[-1]
         headers = {"Authorization": f"OAuth {self.token_user}"}
         params = {"path": in_cloud_name}
         r = get(f"{self._YANDEX_URL}/resources/upload",
                 headers=headers, params=params)
+        print(r)
         href = r.json()["href"]
         with open(local_path, 'rb') as f:
             r = put(href, data=f)
@@ -58,7 +61,7 @@ class YandexDisk:
         :param local_path: путь до папки
         """
         try:
-            date_folder = '{0}_{1}'.format(local_path.split('\\' or '/')[-1], datetime.now().strftime("%Y.%m.%d-%H.%M.%S"))
+            date_folder = '{0}_{1}'.format(local_path.split('/')[-1], datetime.now().strftime("%Y.%m.%d-%H.%M.%S"))
             for address, _, files in os.walk(local_path):
                 self.create_folder(
                     '{0}/{1}'.format(date_folder,
