@@ -8,7 +8,7 @@ class YandexDisk:
     _AUTH_URL = "https://oauth.yandex.ru/authorize"
     _TOKEN_URL = "https://oauth.yandex.ru/token"
     _YANDEX_URL = "https://cloud-api.yandex.net/v1/disk"
-    client_id = ""
+    client_id = "0920941bb5d742a99a1aff5aaddeb730"
     client_secret = "48ede7d38db949929c0271c1af9c2ac1"
     token_user = None
 
